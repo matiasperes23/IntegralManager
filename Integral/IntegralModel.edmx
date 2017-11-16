@@ -1,0 +1,365 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="integralDataModel.Store" Alias="Self" Provider="System.Data.SQLite" ProviderManifestToken="ISO8601" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityContainer Name="integralDataModelStoreContainer">
+          <EntitySet Name="Disciplinas" EntityType="integralDataModel.Store.Disciplinas" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Montos" EntityType="integralDataModel.Store.Montos" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Pagos" EntityType="integralDataModel.Store.Pagos" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="SocioDisciplina" EntityType="integralDataModel.Store.SocioDisciplina" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <EntitySet Name="Socios" EntityType="integralDataModel.Store.Socios" store:Type="Tables" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" />
+          <AssociationSet Name="FK_Montos_0" Association="integralDataModel.Store.FK_Montos_0">
+            <End Role="Disciplinas" EntitySet="Disciplinas" />
+            <End Role="Montos" EntitySet="Montos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Montos_1" Association="integralDataModel.Store.FK_Montos_1">
+            <End Role="Pagos" EntitySet="Pagos" />
+            <End Role="Montos" EntitySet="Montos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pagos_0" Association="integralDataModel.Store.FK_Pagos_0">
+            <End Role="Socios" EntitySet="Socios" />
+            <End Role="Pagos" EntitySet="Pagos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SocioDisciplina_0" Association="integralDataModel.Store.FK_SocioDisciplina_0">
+            <End Role="Disciplinas" EntitySet="Disciplinas" />
+            <End Role="SocioDisciplina" EntitySet="SocioDisciplina" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SocioDisciplina_1" Association="integralDataModel.Store.FK_SocioDisciplina_1">
+            <End Role="Socios" EntitySet="Socios" />
+            <End Role="SocioDisciplina" EntitySet="SocioDisciplina" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Disciplinas">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="Cuota" Type="float" />
+          <Property Name="Profesor" Type="nvarchar" MaxLength="256" />
+          <Property Name="ContactoProfesor" Type="nvarchar" MaxLength="256" />
+          <Property Name="Habilitada" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Montos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="MontoParcial" Type="float" Nullable="false" />
+          <Property Name="PagoId" Type="integer" Nullable="false" />
+          <Property Name="DisciplinaId" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Pagos">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="MesPago" Type="datetime" Nullable="false" />
+          <Property Name="MontoTotal" Type="float" Nullable="false" />
+          <Property Name="Fecha" Type="datetime" Nullable="false" />
+          <Property Name="SocioId" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SocioDisciplina">
+          <Key>
+            <PropertyRef Name="SocioId" />
+            <PropertyRef Name="DisciplinaId" />
+          </Key>
+          <Property Name="SocioId" Type="integer" Nullable="false" />
+          <Property Name="DisciplinaId" Type="integer" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Socios">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="integer" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre" Type="nvarchar" Nullable="false" MaxLength="256" />
+          <Property Name="FechaInscripcion" Type="datetime" Nullable="false" />
+          <Property Name="Edad" Type="integer" Nullable="false" />
+          <Property Name="Direccion" Type="nvarchar" MaxLength="512" />
+          <Property Name="TelCel" Type="nvarchar" MaxLength="256" />
+          <Property Name="EmergenciaMedica" Type="nvarchar" MaxLength="512" />
+        </EntityType>
+        <Association Name="FK_Montos_0">
+          <End Role="Disciplinas" Type="integralDataModel.Store.Disciplinas" Multiplicity="1" />
+          <End Role="Montos" Type="integralDataModel.Store.Montos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Disciplinas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Montos">
+              <PropertyRef Name="DisciplinaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Montos_1">
+          <End Role="Pagos" Type="integralDataModel.Store.Pagos" Multiplicity="1" />
+          <End Role="Montos" Type="integralDataModel.Store.Montos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pagos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Montos">
+              <PropertyRef Name="PagoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pagos_0">
+          <End Role="Socios" Type="integralDataModel.Store.Socios" Multiplicity="1" />
+          <End Role="Pagos" Type="integralDataModel.Store.Pagos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Socios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pagos">
+              <PropertyRef Name="SocioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SocioDisciplina_0">
+          <End Role="Disciplinas" Type="integralDataModel.Store.Disciplinas" Multiplicity="1" />
+          <End Role="SocioDisciplina" Type="integralDataModel.Store.SocioDisciplina" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Disciplinas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SocioDisciplina">
+              <PropertyRef Name="DisciplinaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SocioDisciplina_1">
+          <End Role="Socios" Type="integralDataModel.Store.Socios" Multiplicity="1" />
+          <End Role="SocioDisciplina" Type="integralDataModel.Store.SocioDisciplina" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Socios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SocioDisciplina">
+              <PropertyRef Name="SocioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="integralDataModel" Alias="Self" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityContainer Name="integralDataEntities" annotation:LazyLoadingEnabled="true" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation">
+          <EntitySet Name="Disciplinas" EntityType="integralDataModel.Disciplina" />
+          <EntitySet Name="Montos" EntityType="integralDataModel.Monto" />
+          <EntitySet Name="Pagos" EntityType="integralDataModel.Pago" />
+          <EntitySet Name="Socios" EntityType="integralDataModel.Socio" />
+          <AssociationSet Name="FK_Montos_0" Association="integralDataModel.FK_Montos_0">
+            <End Role="Disciplinas" EntitySet="Disciplinas" />
+            <End Role="Montos" EntitySet="Montos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Montos_1" Association="integralDataModel.FK_Montos_1">
+            <End Role="Pagos" EntitySet="Pagos" />
+            <End Role="Montos" EntitySet="Montos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Pagos_0" Association="integralDataModel.FK_Pagos_0">
+            <End Role="Socios" EntitySet="Socios" />
+            <End Role="Pagos" EntitySet="Pagos" />
+          </AssociationSet>
+          <AssociationSet Name="SocioDisciplina" Association="integralDataModel.SocioDisciplina">
+            <End Role="Disciplinas" EntitySet="Disciplinas" />
+            <End Role="Socios" EntitySet="Socios" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Disciplina">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="Cuota" Type="Double" Nullable="true" />
+          <NavigationProperty Name="Montos" Relationship="integralDataModel.FK_Montos_0" FromRole="Disciplinas" ToRole="Montos" />
+          <NavigationProperty Name="Socios" Relationship="integralDataModel.SocioDisciplina" FromRole="Disciplinas" ToRole="Socios" />
+          <Property Type="String" Name="Profesor" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="String" Name="ContactoProfesor" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Type="Boolean" Name="Habilitada" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Monto">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="PagoId" Type="Int64" Nullable="false" />
+          <Property Name="DisciplinaId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Disciplina" Relationship="integralDataModel.FK_Montos_0" FromRole="Montos" ToRole="Disciplinas" />
+          <NavigationProperty Name="Pago" Relationship="integralDataModel.FK_Montos_1" FromRole="Montos" ToRole="Pagos" />
+          <Property Type="Double" Name="MontoParcial" Nullable="false" />
+          <Property Type="Int64" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+        </EntityType>
+        <EntityType Name="Pago">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="MesPago" Type="DateTime" Nullable="false" />
+          <Property Name="MontoTotal" Type="Double" Nullable="false" />
+          <Property Name="Fecha" Type="DateTime" Nullable="false" />
+          <Property Name="SocioId" Type="Int64" Nullable="false" />
+          <NavigationProperty Name="Montos" Relationship="integralDataModel.FK_Montos_1" FromRole="Pagos" ToRole="Montos" />
+          <NavigationProperty Name="Socio" Relationship="integralDataModel.FK_Pagos_0" FromRole="Pagos" ToRole="Socios" />
+        </EntityType>
+        <EntityType Name="Socio">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int64" Nullable="false" annotation:StoreGeneratedPattern="Identity" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" />
+          <Property Name="Nombre" Type="String" Nullable="false" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="FechaInscripcion" Type="DateTime" Nullable="false" />
+          <Property Name="Edad" Type="Int64" Nullable="false" />
+          <Property Name="Direccion" Type="String" Nullable="true" MaxLength="512" Unicode="true" FixedLength="false" />
+          <Property Name="TelCel" Type="String" Nullable="true" MaxLength="256" Unicode="true" FixedLength="false" />
+          <Property Name="EmergenciaMedica" Type="String" Nullable="true" MaxLength="512" Unicode="true" FixedLength="false" />
+          <NavigationProperty Name="Pagos" Relationship="integralDataModel.FK_Pagos_0" FromRole="Socios" ToRole="Pagos" />
+          <NavigationProperty Name="Disciplinas" Relationship="integralDataModel.SocioDisciplina" FromRole="Socios" ToRole="Disciplinas" />
+        </EntityType>
+        <Association Name="FK_Montos_0">
+          <End Role="Disciplinas" Type="integralDataModel.Disciplina" Multiplicity="1" />
+          <End Role="Montos" Type="integralDataModel.Monto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Disciplinas">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Montos">
+              <PropertyRef Name="DisciplinaId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Montos_1">
+          <End Role="Pagos" Type="integralDataModel.Pago" Multiplicity="1" />
+          <End Role="Montos" Type="integralDataModel.Monto" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Pagos">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Montos">
+              <PropertyRef Name="PagoId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Pagos_0">
+          <End Role="Socios" Type="integralDataModel.Socio" Multiplicity="1" />
+          <End Role="Pagos" Type="integralDataModel.Pago" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Socios">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Pagos">
+              <PropertyRef Name="SocioId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SocioDisciplina">
+          <End Role="Disciplinas" Type="integralDataModel.Disciplina" Multiplicity="*" />
+          <End Role="Socios" Type="integralDataModel.Socio" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="integralDataModelStoreContainer" CdmEntityContainer="integralDataEntities">
+          <EntitySetMapping Name="Disciplinas">
+            <EntityTypeMapping TypeName="integralDataModel.Disciplina">
+              <MappingFragment StoreEntitySet="Disciplinas">
+                <ScalarProperty Name="Habilitada" ColumnName="Habilitada" />
+                <ScalarProperty Name="ContactoProfesor" ColumnName="ContactoProfesor" />
+                <ScalarProperty Name="Profesor" ColumnName="Profesor" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Cuota" ColumnName="Cuota" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Montos">
+            <EntityTypeMapping TypeName="integralDataModel.Monto">
+              <MappingFragment StoreEntitySet="Montos">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MontoParcial" ColumnName="MontoParcial" />
+                <ScalarProperty Name="PagoId" ColumnName="PagoId" />
+                <ScalarProperty Name="DisciplinaId" ColumnName="DisciplinaId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pagos">
+            <EntityTypeMapping TypeName="integralDataModel.Pago">
+              <MappingFragment StoreEntitySet="Pagos">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="MesPago" ColumnName="MesPago" />
+                <ScalarProperty Name="MontoTotal" ColumnName="MontoTotal" />
+                <ScalarProperty Name="Fecha" ColumnName="Fecha" />
+                <ScalarProperty Name="SocioId" ColumnName="SocioId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Socios">
+            <EntityTypeMapping TypeName="integralDataModel.Socio">
+              <MappingFragment StoreEntitySet="Socios">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="FechaInscripcion" ColumnName="FechaInscripcion" />
+                <ScalarProperty Name="Edad" ColumnName="Edad" />
+                <ScalarProperty Name="Direccion" ColumnName="Direccion" />
+                <ScalarProperty Name="TelCel" ColumnName="TelCel" />
+                <ScalarProperty Name="EmergenciaMedica" ColumnName="EmergenciaMedica" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="SocioDisciplina" TypeName="integralDataModel.SocioDisciplina" StoreEntitySet="SocioDisciplina">
+            <EndProperty Name="Disciplinas">
+              <ScalarProperty Name="Id" ColumnName="DisciplinaId" />
+            </EndProperty>
+            <EndProperty Name="Socios">
+              <ScalarProperty Name="Id" ColumnName="SocioId" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="True" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="IntegralModel" ZoomLevel="81">
+        <EntityTypeShape EntityType="integralDataModel.Disciplina" Width="1.5" PointX="0.75" PointY="2.5" Height="2.5571907552083326" IsExpanded="true" />
+        <EntityTypeShape EntityType="integralDataModel.Monto" Width="1.5" PointX="7.5" PointY="4.25" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="integralDataModel.Pago" Width="1.5" PointX="5.25" PointY="5.375" Height="2.3648893229166656" IsExpanded="true" />
+        <EntityTypeShape EntityType="integralDataModel.Socio" Width="1.5" PointX="1.25" PointY="5.625" Height="2.7494921874999996" IsExpanded="true" />
+        <AssociationConnector Association="integralDataModel.FK_Montos_0" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="4.6535953776041659" />
+          <ConnectorPoint PointX="7.5" PointY="4.6535953776041659" />
+        </AssociationConnector>
+        <AssociationConnector Association="integralDataModel.FK_Montos_1" ManuallyRouted="false">
+          <ConnectorPoint PointX="6.75" PointY="5.8987939453125" />
+          <ConnectorPoint PointX="7.5" PointY="5.8987939453125" />
+        </AssociationConnector>
+        <AssociationConnector Association="integralDataModel.FK_Pagos_0" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.75" PointY="6.6824446614583328" />
+          <ConnectorPoint PointX="5.25" PointY="6.6824446614583328" />
+        </AssociationConnector>
+        <AssociationConnector Association="integralDataModel.SocioDisciplina" ManuallyRouted="false">
+          <ConnectorPoint PointX="1.75" PointY="5.0571907552083326" />
+          <ConnectorPoint PointX="1.75" PointY="5.625" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>

@@ -1,0 +1,17 @@
+﻿<Window x:Class="Integral.Window1"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Window1" Height="324" Width="343">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="30*" />
+            <ColumnDefinition Width="349*" />
+            <ColumnDefinition Width="30*" />
+        </Grid.ColumnDefinitions>
+        <Image Margin="12,12,16,71" Name="imgPhoto" 
+               Stretch="Uniform" Grid.Column="1" />
+        <Button Height="23" HorizontalAlignment="Left" 
+                Margin="12,0,0,34" Name="btnLoad" VerticalAlignment="Bottom" 
+                Width="75" Grid.Column="1" Click="btnLoad_Click">_Load</Button>
+    </Grid>
+</Window>

@@ -1,0 +1,43 @@
+﻿<Window x:Class="Integral.PagoWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        Title="Nuevo Pago" Height="269" Width="527" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Window.Resources>
+        <!-- TEMPLATES-->
+        <DataTemplate x:Key="PagoDisciplinaTemplate">
+            <StackPanel Orientation="Horizontal" Margin="5" Focusable="False">
+                <TextBlock Text="Monto: " VerticalAlignment="Center" TextWrapping="Wrap" />
+                <xctk:DoubleUpDown IsEnabled="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" 
+                                   SelectAllOnGotFocus="True" CultureInfo="es-UY" FormatString="C2" Value="{Binding Path=MontoParcial}" Increment="1" Minimum="0" MinWidth="80" Margin="5,0,10,0" LostFocus="DoubleUpDown_LostFocus" ValueChanged="DoubleUpDown_ValueChanged" />
+                <CheckBox Focusable="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=Focusable}" 
+                          IsChecked="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBoxItem}}, Path=IsSelected}" 
+                          Content="{Binding Path=Disciplina.Nombre}" 
+                          VerticalAlignment="Center" />
+                </StackPanel>
+        </DataTemplate>
+        </Window.Resources>
+        
+        <Grid>
+        <xctk:DateTimeUpDown Name="dtpMesPago" CultureInfo="es-ES" Format="YearMonth" Margin="53,12,0,0" Height="28" VerticalAlignment="Top" HorizontalAlignment="Left" Width="145" TextAlignment="Left"/>
+        <xctk:DateTimePicker Name="dtpFechaIngreso" CultureInfo="es-ES" Format="ShortDate" Margin="0,12,12,0" Height="28" VerticalAlignment="Top" HorizontalAlignment="Right" Width="104" ShowButtonSpinner="False" TextAlignment="Left"/>
+        <Label Content="Mes:" Height="28" HorizontalAlignment="Left" Margin="12,12,0,0" Name="label1" VerticalAlignment="Top" />
+        <GroupBox Header="Pago/Disciplina" Height="108" Margin="12,46,12,0" Name="groupBox1" VerticalAlignment="Top">
+            <Grid>
+                <ScrollViewer Name="scrollViewer1" >
+                    <ListBox Name="listMontos" 
+                         ItemTemplate="{StaticResource PagoDisciplinaTemplate}" 
+                         SelectionMode="Multiple" 
+                         SelectionChanged="listMontos_SelectionChanged" />
+                </ScrollViewer>
+            </Grid>
+        </GroupBox>
+        <Label Name="labelMontoTotal" Content="Monto Total: " Height="28" HorizontalAlignment="Left" Margin="12,154,0,0" VerticalAlignment="Top" />
+        <Button Name="buttonIngresarPago" Background="#FF7097D5" BorderThickness="0" Content="Ingresar Pago" FontFamily="Gisha" FontWeight="Bold" Foreground="#FF222222" Height="25" Margin="0,0,12,12" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="111" Click="buttonIngresarPago_Click" />
+        <Button Name="buttonCancelar" Background="#FFCCCCCC" BorderThickness="0" Content="Cancelar" FontFamily="Gisha" FontWeight="Bold" Foreground="#FF222222" Height="25" HorizontalAlignment="Right" Margin="0,0,129,12" VerticalAlignment="Bottom" Width="96" Click="Cancelar_Click" />
+        <Button Name="buttonCerrar"  Visibility="Hidden" Background="#FFCCCCCC" BorderThickness="0" Content="Cerrar" FontFamily="Gisha" FontWeight="Bold" Foreground="#FF222222" Height="25" Margin="0,0,12,12" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="83" Click="buttonCerrar_Click" />
+        <Button Name="buttonEliminar"  Visibility="Hidden" Background="#FFFFBFBF" BorderThickness="0" Content="Eliminar Pago" FontFamily="Gisha" FontWeight="Bold" Foreground="#FF222222" Height="25" HorizontalAlignment="Left" Margin="12,0,0,12" VerticalAlignment="Bottom" Width="96" Click="buttonEliminar_Click" />    
+        <Label Content="Fecha de Ingreso:" Height="28" HorizontalAlignment="Right" Margin="0,12,122,0" Name="label3" VerticalAlignment="Top" />
+    </Grid>
+</Window>
+
